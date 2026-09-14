@@ -1,0 +1,132 @@
+@import './styles/tokens.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    @apply border-navy/10;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: var(--nav-height);
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-neutralx-0 text-navy-900 font-sans text-body antialiased;
+    /* Circuit systems and offset compositions must never create a sideways scroll. */
+    overflow-x: hidden;
+  }
+
+  /* Arabic gets its own face, slightly larger optical size and looser leading —
+     it is not a mirrored copy of the Latin scale. */
+  [dir='rtl'] body {
+    @apply font-arabic;
+    font-size: 1.09375rem;
+    line-height: 1.82;
+    letter-spacing: 0;
+  }
+
+  [dir='rtl'] .font-mono {
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    letter-spacing: 0.08em;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    @apply outline-none ring-2 ring-green ring-offset-2 ring-offset-neutralx-0 rounded-xs;
+  }
+
+  .on-dark :focus-visible {
+    @apply ring-offset-navy-900;
+  }
+
+  ::selection {
+    background: var(--green-a28);
+    color: var(--saak-navy-900);
+  }
+
+  img {
+    max-width: 100%;
+  }
+}
+
+@layer components {
+  .shell {
+    @apply mx-auto w-full max-w-shell px-gutter;
+  }
+
+  /* Uniform eyebrow / technical label treatment. */
+  .tech-label {
+    @apply font-mono text-tech uppercase;
+  }
+
+  /* Hairline that reads as an engineering rule rather than a border. */
+  .hairline {
+    @apply h-px w-full bg-navy/10;
+  }
+
+  .on-dark .hairline {
+    @apply bg-white/15;
+  }
+
+  .surface-card {
+    @apply relative rounded-md border border-navy/10 bg-neutralx-0 shadow-card;
+  }
+
+  .on-dark .surface-card {
+    @apply border-white/10 bg-white/[0.04] shadow-none;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Logical-property helpers so RTL mirrors correctly without duplicated rules. */
+  .ps-gutter {
+    padding-inline-start: var(--space-gutter);
+  }
+
+  .pe-gutter {
+    padding-inline-end: var(--space-gutter);
+  }
+
+  .mask-fade-b {
+    -webkit-mask-image: linear-gradient(to bottom, #000 62%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 62%, transparent 100%);
+  }
+}
+
+/* Reduced motion: every decorative animation collapses to a plain, static state.
+   Framer Motion variants are additionally gated in TypeScript (useMotionPreference). */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
