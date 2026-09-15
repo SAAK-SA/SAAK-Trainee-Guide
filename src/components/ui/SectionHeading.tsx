@@ -2,7 +2,6 @@ import type { ReactNode } from 'react';
 import { cn } from '@/lib/cn';
 import { Reveal } from './Reveal';
 import { TechnicalLabel } from './TechnicalLabel';
-import { AnimatedLine } from '@/components/circuit/AnimatedLine';
 
 interface SectionHeadingProps {
   /** DOM id target for the section's aria-labelledby. */
@@ -14,13 +13,11 @@ interface SectionHeadingProps {
   align?: 'start' | 'center';
   className?: string;
   children?: ReactNode;
-  /** Draws the short connector trace between eyebrow and title. */
-  trace?: boolean;
 }
 
 /**
- * The standard entry into a section: technical eyebrow, a connector trace,
- * the headline, then an optional lead paragraph at a readable measure.
+ * The standard entry into a section: a small eyebrow label, a short accent
+ * rule in the brand green, the headline, then an optional lead paragraph.
  */
 export function SectionHeading({
   id,
@@ -31,7 +28,6 @@ export function SectionHeading({
   align = 'start',
   className,
   children,
-  trace = true,
 }: SectionHeadingProps) {
   const isDark = tone === 'dark';
 
@@ -44,36 +40,20 @@ export function SectionHeading({
       )}
     >
       <Reveal distance={16}>
-        <TechnicalLabel marker tone={isDark ? 'inverse' : 'muted'}>
-          {eyebrow}
-        </TechnicalLabel>
+        <TechnicalLabel tone={isDark ? 'inverse' : 'muted'}>{eyebrow}</TechnicalLabel>
       </Reveal>
 
-      {trace ? (
-        <div
-          className={cn(
-            'mt-5 h-6 w-full max-w-[320px]',
-            isDark ? 'text-white/35' : 'text-navy/30',
-            align === 'center' && 'mx-auto',
-          )}
+      <Reveal distance={12} delay={0.04}>
+        <span
+          className={cn('mt-4 block h-0.5 w-12 bg-green', align === 'center' && 'mx-auto')}
           aria-hidden="true"
-        >
-          <AnimatedLine
-            className="h-full w-full"
-            viewBox="0 0 320 24"
-            d="M0 6 H210 L228 22 H320"
-            accentD="M0 6 H120"
-            nodes={[{ cx: 210, cy: 6, r: 2.5, accent: true }]}
-            duration={0.9}
-            preserveAspectRatio="none"
-          />
-        </div>
-      ) : null}
+        />
+      </Reveal>
 
-      <Reveal distance={22} delay={0.05}>
+      <Reveal distance={22} delay={0.06}>
         <h2
           id={`${id}-heading`}
-          className={cn('mt-4 text-h1', isDark ? 'text-white' : 'text-navy-900')}
+          className={cn('mt-5 text-h1', isDark ? 'text-white' : 'text-navy-900')}
         >
           {title}
         </h2>
@@ -85,7 +65,7 @@ export function SectionHeading({
             className={cn(
               'mt-6 max-w-prose text-body-lg',
               align === 'center' && 'mx-auto',
-              isDark ? 'text-white/70' : 'text-navy/75',
+              isDark ? 'text-white/75' : 'text-navy/80',
             )}
           >
             {lead}

@@ -14,13 +14,14 @@ interface NavbarProps {
   onOpenMenu: () => void;
 }
 
-const NAV_SECTIONS = SECTIONS.filter((section) => section.inNav);
+const NAV_SECTIONS = SECTIONS.filter(
+  (section) => section.inNav && section.navPriority === 'primary',
+);
 
 /**
  * Primary navigation.
- * Transparent over the hero, then it condenses onto a solid surface. The
- * active section is marked by a green trace that slides between items, and a
- * hairline progress bar reports position in the document.
+ * Transparent over the hero, then it condenses onto a solid surface with the
+ * navigation list, language toggle, and a hairline scroll-progress bar.
  */
 export function Navbar({ activeId, onOpenMenu }: NavbarProps) {
   const { t } = useLanguage();
@@ -42,7 +43,6 @@ export function Navbar({ activeId, onOpenMenu }: NavbarProps) {
     if (!target) return;
     event.preventDefault();
     target.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
-    // Keep the URL meaningful without triggering a second, instant jump.
     window.history.replaceState(null, '', `#${id}`);
   };
 
@@ -51,7 +51,7 @@ export function Navbar({ activeId, onOpenMenu }: NavbarProps) {
       className={cn(
         'fixed inset-x-0 top-0 z-50 transition-all duration-base ease-technical',
         condensed
-          ? 'border-b border-navy/10 bg-neutralx-0/92 backdrop-blur-md'
+          ? 'border-b border-navy/10 bg-neutralx-0/95 backdrop-blur-md'
           : 'border-b border-transparent bg-transparent',
       )}
       style={{ height: 'var(--nav-height)' }}
@@ -77,21 +77,21 @@ export function Navbar({ activeId, onOpenMenu }: NavbarProps) {
                     onClick={(event) => handleJump(event, section.id)}
                     aria-current={active ? 'true' : undefined}
                     className={cn(
-                      'relative block rounded-xs px-3 py-2 font-mono text-meta uppercase tracking-[0.18em] transition-colors duration-base',
+                      'relative block rounded-xs px-3 py-2 text-small font-medium transition-colors duration-base',
                       condensed
                         ? active
                           ? 'text-navy-900'
                           : 'text-navy/70 hover:text-navy'
                         : active
                           ? 'text-white'
-                          : 'text-white/60 hover:text-white',
+                          : 'text-white/70 hover:text-white',
                     )}
                   >
                     {t(section.nav)}
                     {active ? (
                       <motion.span
                         layoutId="nav-active-trace"
-                        className="absolute inset-x-2 -bottom-0.5 h-px bg-green"
+                        className="absolute inset-x-2 -bottom-0.5 h-0.5 bg-green"
                         transition={
                           reduced ? { duration: 0 } : { duration: 0.32, ease: [0.22, 1, 0.36, 1] }
                         }
@@ -111,7 +111,7 @@ export function Navbar({ activeId, onOpenMenu }: NavbarProps) {
             onClick={onOpenMenu}
             aria-label={t(UI.openMenu)}
             className={cn(
-              'inline-flex h-11 w-11 items-center justify-center rounded-sm border transition-colors duration-base lg:hidden',
+              'inline-flex h-11 w-11 items-center justify-center rounded-md border transition-colors duration-base',
               condensed
                 ? 'border-navy/15 text-navy hover:border-green hover:text-green-700'
                 : 'border-white/25 text-white hover:border-green hover:text-green',
@@ -122,7 +122,6 @@ export function Navbar({ activeId, onOpenMenu }: NavbarProps) {
         </div>
       </div>
 
-      {/* Document progress — the thinnest possible status indicator. */}
       <motion.div
         className="absolute inset-x-0 bottom-0 h-px origin-left bg-green"
         style={{ scaleX: progress }}

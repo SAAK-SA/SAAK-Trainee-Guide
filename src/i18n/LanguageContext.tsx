@@ -17,14 +17,14 @@ const LanguageContext = createContext<LanguageContextValue | null>(null);
 const STORAGE_KEY = 'saak.locale';
 
 function readStoredLocale(): Locale {
-  if (typeof window === 'undefined') return 'en';
+  if (typeof window === 'undefined') return 'ar';
   try {
     const stored = window.localStorage.getItem(STORAGE_KEY);
     if (stored === 'en' || stored === 'ar') return stored;
   } catch {
     /* private mode / blocked storage — fall through to the default */
   }
-  return 'en';
+  return 'ar';
 }
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
@@ -45,7 +45,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   const setLocale = useCallback((next: Locale) => setLocaleState(next), []);
   const toggleLocale = useCallback(
-    () => setLocaleState((current) => (current === 'en' ? 'ar' : 'en')),
+    () => setLocaleState((current) => (current === 'ar' ? 'en' : 'ar')),
     [],
   );
 

@@ -16,16 +16,6 @@ export const UI = {
   sectionProgress: { en: 'Section progress', ar: 'تقدّم الأقسام' } satisfies Localized,
   languageToggle: { en: 'Switch language', ar: 'تغيير اللغة' } satisfies Localized,
   scrollHint: { en: 'Scroll to begin', ar: 'مرّر للبدء' } satisfies Localized,
-  placeholderNotice: {
-    en: 'Placeholder content — final text pending',
-    ar: 'محتوى مؤقت — النص النهائي قيد الإعداد',
-  } satisfies Localized,
-  imagePending: { en: 'IMAGE PENDING', ar: 'الصورة قيد الإعداد' } satisfies Localized,
-  imageDropHint: {
-    en: 'Place the photograph at /images/',
-    ar: 'أضف الصورة إلى مسار ‎/images/‎',
-  } satisfies Localized,
-  systemStatus: { en: 'SYSTEM ACTIVE', ar: 'النظام نشط' } satisfies Localized,
   copyright: {
     en: 'SAAK International. Internal training material.',
     ar: 'SAAK International — مادة تدريبية داخلية.',
@@ -33,4 +23,5 @@ export const UI = {
   documentRef: { en: 'DOC. REF', ar: 'مرجع المستند' } satisfies Localized,
   revision: { en: 'REV', ar: 'المراجعة' } satisfies Localized,
   backToTop: { en: 'Back to top', ar: 'العودة إلى الأعلى' } satisfies Localized,
+  quickLinks: { en: 'Quick links', ar: 'روابط سريعة' } satisfies Localized,
 } as const;

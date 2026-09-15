@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { X } from 'lucide-react';
+import { X, ArrowRight, ArrowLeft } from 'lucide-react';
 import { useLanguage } from '@/i18n/LanguageContext';
 import { useMotionPreference } from '@/hooks/useMotionPreference';
 import { SECTIONS } from '@/data/content';
@@ -8,8 +8,6 @@ import { UI } from '@/data/ui';
 import { cn } from '@/lib/cn';
 import { Logo } from './Logo';
 import { LanguageToggle } from './LanguageToggle';
-import { CircuitDecoration } from '@/components/circuit/CircuitDecoration';
-import { CircuitNode } from '@/components/circuit/CircuitNode';
 
 interface MobileNavigationProps {
   open: boolean;
@@ -18,16 +16,16 @@ interface MobileNavigationProps {
 }
 
 /**
- * Full-screen navigation for small screens.
- * Large touch targets, one item per row, a staggered entrance and the same
- * node-activation language as the desktop rail. Focus is trapped to the panel
- * while it is open and returned to the trigger on close.
+ * Full-screen navigation for tablet / small screens.
+ * Large touch targets, one item per row, staggered entrance, focus trapped
+ * while open and restored to the trigger on close.
  */
 export function MobileNavigation({ open, activeId, onClose }: MobileNavigationProps) {
   const { t, isRTL } = useLanguage();
   const { reduced } = useMotionPreference();
   const panelRef = useRef<HTMLDivElement>(null);
   const previouslyFocused = useRef<HTMLElement | null>(null);
+  const ArrowIcon = isRTL ? ArrowLeft : ArrowRight;
 
   useEffect(() => {
     if (!open) return;
@@ -59,7 +57,6 @@ export function MobileNavigation({ open, activeId, onClose }: MobileNavigationPr
     };
 
     document.addEventListener('keydown', onKeyDown);
-    // Move focus into the panel so the keyboard path is unbroken.
     window.requestAnimationFrame(() => {
       panelRef.current?.querySelector<HTMLElement>('button, a')?.focus();
     });
@@ -75,7 +72,6 @@ export function MobileNavigation({ open, activeId, onClose }: MobileNavigationPr
     onClose();
     const target = document.getElementById(id);
     if (!target) return;
-    // Let the overlay finish closing before the scroll begins.
     window.setTimeout(
       () => target.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' }),
       reduced ? 0 : 220,
@@ -90,19 +86,12 @@ export function MobileNavigation({ open, activeId, onClose }: MobileNavigationPr
           role="dialog"
           aria-modal="true"
           aria-label={t(UI.menu)}
-          className="on-dark fixed inset-0 z-[60] flex flex-col bg-navy-950 lg:hidden"
+          className="on-dark fixed inset-0 z-[60] flex flex-col bg-navy-950"
           initial={reduced ? { opacity: 0 } : { opacity: 0, clipPath: 'inset(0 0 100% 0)' }}
           animate={reduced ? { opacity: 1 } : { opacity: 1, clipPath: 'inset(0 0 0% 0)' }}
           exit={reduced ? { opacity: 0 } : { opacity: 0, clipPath: 'inset(0 0 100% 0)' }}
           transition={{ duration: reduced ? 0.15 : 0.45, ease: [0.22, 1, 0.36, 1] }}
         >
-          <div className="absolute inset-0 bg-grid-fine-dark bg-grid opacity-40" aria-hidden="true" />
-          <CircuitDecoration
-            variant="corner"
-            className="end-0 top-24 h-40 w-56 text-white/40"
-            opacity={0.4}
-          />
-
           <div
             className="relative flex items-center justify-between px-gutter"
             style={{ height: 'var(--nav-height)' }}
@@ -112,7 +101,7 @@ export function MobileNavigation({ open, activeId, onClose }: MobileNavigationPr
               type="button"
               onClick={onClose}
               aria-label={t(UI.closeMenu)}
-              className="inline-flex h-11 w-11 items-center justify-center rounded-sm border border-white/25 text-white transition-colors duration-base hover:border-green hover:text-green"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-md border border-white/25 text-white transition-colors duration-base hover:border-green hover:text-green"
             >
               <X className="h-5 w-5" strokeWidth={1.5} aria-hidden="true" />
             </button>
@@ -123,7 +112,7 @@ export function MobileNavigation({ open, activeId, onClose }: MobileNavigationPr
             className="relative flex-1 overflow-y-auto px-gutter pb-10 pt-6"
           >
             <ul className="m-0 list-none p-0">
-              {SECTIONS.filter((section) => section.id !== 'hero').map((section, index) => {
+              {SECTIONS.filter((section) => section.inNav).map((section, index) => {
                 const active = section.id === activeId;
                 return (
                   <motion.li
@@ -148,28 +137,28 @@ export function MobileNavigation({ open, activeId, onClose }: MobileNavigationPr
                       </span>
                       <span
                         className={cn(
-                          'flex-1 text-h2 transition-colors duration-base',
+                          'flex-1 text-h3 transition-colors duration-base',
                           active ? 'text-green' : 'text-white group-hover:text-green',
                         )}
                       >
                         {t(section.nav)}
                       </span>
-                      <span className="text-white">
-                        <CircuitNode size="sm" active={active} />
-                      </span>
+                      <ArrowIcon
+                        className={cn(
+                          'h-4 w-4 shrink-0 transition-colors duration-base',
+                          active ? 'text-green' : 'text-white/40 group-hover:text-green',
+                        )}
+                        aria-hidden="true"
+                      />
                     </button>
                   </motion.li>
                 );
               })}
             </ul>
 
-            <div
-              className={cn('mt-10 flex items-center gap-4', isRTL && 'flex-row-reverse')}
-            >
+            <div className="mt-10 flex items-center gap-4">
               <LanguageToggle tone="dark" />
-              <span className="font-mono text-meta uppercase tracking-[0.22em] text-white/55">
-                {t(UI.languageToggle)}
-              </span>
+              <span className="text-small text-white/60">{t(UI.languageToggle)}</span>
             </div>
           </nav>
         </motion.div>

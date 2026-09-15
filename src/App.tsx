@@ -7,26 +7,25 @@ import { UI } from '@/data/ui';
 import { Navbar } from '@/components/layout/Navbar';
 import { MobileNavigation } from '@/components/layout/MobileNavigation';
 import { Footer } from '@/components/layout/Footer';
-import { CircuitRail } from '@/components/circuit/CircuitRail';
-import { SectionConnector } from '@/components/circuit/SectionConnector';
 
 import { Hero } from '@/components/sections/Hero';
-import { Introduction } from '@/components/sections/Introduction';
-import { Company } from '@/components/sections/Company';
-import { Journey } from '@/components/sections/Journey';
-import { Facility } from '@/components/sections/Facility';
-import { Guidelines } from '@/components/sections/Guidelines';
+import { About } from '@/components/sections/About';
+import { Vision } from '@/components/sections/Vision';
+import { Starting } from '@/components/sections/Starting';
+import { Experience } from '@/components/sections/Experience';
+import { Conduct } from '@/components/sections/Conduct';
 import { Safety } from '@/components/sections/Safety';
-import { Information } from '@/components/sections/Information';
+import { Confidentiality } from '@/components/sections/Confidentiality';
+import { Property } from '@/components/sections/Property';
+import { Compliance } from '@/components/sections/Compliance';
 import { Contact } from '@/components/sections/Contact';
-import { Closing } from '@/components/sections/Closing';
+import { Completion } from '@/components/sections/Completion';
+import { Acknowledgement } from '@/components/sections/Acknowledgement';
 
 /**
  * Page composition.
- *
- * The order below is also the visual rhythm of the guide:
- * dark → light → dark → muted → media → light → dark → muted → light → dark,
- * with a circuit connector carrying the trace across each tonal change.
+ * The tonal rhythm alternates light/muted/dark to keep the scroll legible
+ * without heavy dividers between sections.
  */
 function Page() {
   const { t } = useLanguage();
@@ -38,7 +37,7 @@ function Page() {
   return (
     <div className="relative min-h-screen w-full overflow-x-hidden bg-neutralx-0">
       <a
-        href="#introduction"
+        href="#about"
         className="sr-only rounded-sm bg-navy px-4 py-3 font-mono text-tech uppercase text-white focus:not-sr-only focus:fixed focus:start-4 focus:top-4 focus:z-[70]"
       >
         {t(UI.skipToContent)}
@@ -46,28 +45,21 @@ function Page() {
 
       <Navbar activeId={activeId} onOpenMenu={() => setMenuOpen(true)} />
       <MobileNavigation open={menuOpen} activeId={activeId} onClose={closeMenu} />
-      <CircuitRail activeId={activeId} />
 
       <main id="main">
         <Hero />
-
-        <Introduction />
-        <SectionConnector tone="dark" />
-        <Company />
-        <SectionConnector tone="muted" flip />
-        <Journey />
-
-        <Facility />
-        <SectionConnector tone="light" />
-        <Guidelines />
-        <SectionConnector tone="dark" flip />
+        <About />
+        <Vision />
+        <Starting />
+        <Experience />
+        <Conduct />
         <Safety />
-        <SectionConnector tone="muted" />
-        <Information />
-        <SectionConnector tone="light" flip />
+        <Confidentiality />
+        <Property />
+        <Compliance />
         <Contact />
-        <SectionConnector tone="dark" />
-        <Closing />
+        <Completion />
+        <Acknowledgement />
       </main>
 
       <Footer />
