@@ -84,6 +84,22 @@ flag to a form endpoint. **To connect the form:**
 Until this is set, the form displays an inline notice ("لم يتم ربط نموذج
 الإرسال بعد") when the user submits — nothing is sent.
 
+## Deployment
+
+The guide deploys automatically to GitHub Pages on every push to `main`
+via `.github/workflows/deploy.yml`. The workflow runs `npm run build`
+with `BASE_PATH=/SAAK-Trainee-Guide/` (so assets resolve under the repo
+subpath) and publishes the `dist/` directory. The live URL is
+`https://saak-sa.github.io/SAAK-Trainee-Guide/`.
+
+**One-time setup** (in the GitHub repo): Settings → Pages → Build and
+deployment → Source: **GitHub Actions**. After that, the first push to
+`main` (or a manual "Run workflow" from the Actions tab) publishes the
+site.
+
+If the repository is ever renamed, update `BASE_PATH` in
+`.github/workflows/deploy.yml` to match the new subpath.
+
 ## Design system
 
 Tokens are defined once in `tailwind.config.ts` and mirrored as CSS custom
