@@ -1,4 +1,4 @@
-import { GraduationCap, Check } from 'lucide-react';
+import { GraduationCap, Check, Award } from 'lucide-react';
 import { useLanguage } from '@/i18n/LanguageContext';
 import { COMPLETION } from '@/data/content';
 import { SectionHeading } from '@/components/ui/SectionHeading';
@@ -13,6 +13,7 @@ export function Completion() {
         eyebrow={t(COMPLETION.eyebrow)}
         title={t(COMPLETION.title)}
         lead={t(COMPLETION.lead)}
+        icon={Award}
       />
 
       <section

@@ -1,3 +1,4 @@
+import { HardHat } from 'lucide-react';
 import { useLanguage } from '@/i18n/LanguageContext';
 import { SAFETY } from '@/data/content';
 import { SectionHeading } from '@/components/ui/SectionHeading';
@@ -13,6 +14,7 @@ export function Safety() {
         eyebrow={t(SAFETY.eyebrow)}
         title={t(SAFETY.title)}
         lead={t(SAFETY.lead)}
+        icon={HardHat}
       />
 
       <div className="mt-10 grid gap-5 sm:grid-cols-2 xl:grid-cols-4">

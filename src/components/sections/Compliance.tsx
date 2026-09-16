@@ -1,3 +1,4 @@
+import { Scale } from 'lucide-react';
 import { useLanguage } from '@/i18n/LanguageContext';
 import { COMPLIANCE } from '@/data/content';
 import { SectionHeading } from '@/components/ui/SectionHeading';
@@ -13,6 +14,7 @@ export function Compliance() {
         eyebrow={t(COMPLIANCE.eyebrow)}
         title={t(COMPLIANCE.title)}
         lead={t(COMPLIANCE.lead)}
+        icon={Scale}
       />
 
       <PolicyPanel

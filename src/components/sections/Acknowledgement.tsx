@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Check, Send } from 'lucide-react';
+import { Check, Send, FileCheck2 } from 'lucide-react';
 import { useLanguage } from '@/i18n/LanguageContext';
 import { ACKNOWLEDGEMENT } from '@/data/content';
 import { SectionHeading } from '@/components/ui/SectionHeading';
@@ -72,6 +72,7 @@ export function Acknowledgement() {
         id="acknowledgement"
         eyebrow={t(ACKNOWLEDGEMENT.eyebrow)}
         title={t(ACKNOWLEDGEMENT.title)}
+        icon={FileCheck2}
       />
 
       {status === 'success' ? (

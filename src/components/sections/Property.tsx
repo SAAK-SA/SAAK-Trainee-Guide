@@ -1,3 +1,4 @@
+import { Wrench } from 'lucide-react';
 import { useLanguage } from '@/i18n/LanguageContext';
 import { PROPERTY } from '@/data/content';
 import { SectionHeading } from '@/components/ui/SectionHeading';
@@ -13,6 +14,7 @@ export function Property() {
         eyebrow={t(PROPERTY.eyebrow)}
         title={t(PROPERTY.title)}
         lead={t(PROPERTY.lead)}
+        icon={Wrench}
       />
 
       <PolicyPanel

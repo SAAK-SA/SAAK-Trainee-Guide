@@ -1,4 +1,4 @@
-import { Phone, Mail, User } from 'lucide-react';
+import { Phone, Mail, User, MessagesSquare } from 'lucide-react';
 import { useLanguage } from '@/i18n/LanguageContext';
 import { CONTACT } from '@/data/content';
 import { SectionHeading } from '@/components/ui/SectionHeading';
@@ -15,6 +15,7 @@ export function Contact() {
         eyebrow={t(CONTACT.eyebrow)}
         title={t(CONTACT.title)}
         lead={t(CONTACT.lead)}
+        icon={MessagesSquare}
       />
 
       <div className="mt-10 grid gap-5 sm:grid-cols-3">
