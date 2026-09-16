@@ -82,11 +82,11 @@ export function Hero() {
 
         <h1
           id="hero-heading"
-          className="max-w-3xl text-display-xl font-extrabold text-white"
+          className="max-w-none text-display font-extrabold text-white"
           style={{ textShadow: '0 4px 24px rgba(0,0,0,0.35)' }}
         >
-          <span className="block text-white/90">{t(HERO.titleLead)}</span>
-          <span className="block text-white">{t(HERO.titleAccent)}</span>
+          <span className="text-white/90">{t(HERO.titleLead)}</span>{' '}
+          <span className="text-white">{t(HERO.titleAccent)}</span>
         </h1>
 
         <p className="max-w-2xl text-body-lg text-white/90">{t(HERO.lead)}</p>
