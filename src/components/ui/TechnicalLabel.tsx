@@ -4,28 +4,24 @@ import { cn } from '@/lib/cn';
 interface TechnicalLabelProps {
   children: ReactNode;
   className?: string;
-  /** Prepends a small square node marker. */
-  marker?: boolean;
-  tone?: 'navy' | 'green' | 'muted' | 'inverse';
+  tone?: 'green' | 'navy' | 'muted' | 'inverse';
 }
 
 const TONE = {
+  green: 'text-green-600',
   navy: 'text-navy',
-  green: 'text-green-700',
-  muted: 'text-navy/70',
-  inverse: 'text-white/60',
+  muted: 'text-neutralx-500',
+  inverse: 'text-white/70',
 } as const;
 
-/** Monospaced metadata label — the smallest unit of the technical language. */
+/** Uppercase eyebrow label — the smallest identity unit above titles. */
 export function TechnicalLabel({
   children,
   className,
-  marker = false,
-  tone = 'muted',
+  tone = 'green',
 }: TechnicalLabelProps) {
   return (
-    <span className={cn('tech-label inline-flex items-center gap-2', TONE[tone], className)}>
-      {marker ? <span className="h-1 w-1 shrink-0 bg-green" aria-hidden="true" /> : null}
+    <span className={cn('inline-block text-label uppercase', TONE[tone], className)}>
       {children}
     </span>
   );

@@ -1,10 +1,10 @@
 /**
  * SAAK design tokens — CSS custom properties.
- * Mirrors tailwind.config.ts so that raw CSS, SVG fills and inline styles
- * consume exactly the same values as the utility classes.
+ * Mirrors tailwind.config.ts so raw CSS and inline styles consume the same
+ * values as the utility classes.
  */
 :root {
-  /* Brand */
+  /* Brand palette — navy + green */
   --saak-navy: #14396b;
   --saak-navy-700: #102e57;
   --saak-navy-800: #0c2342;
@@ -12,23 +12,31 @@
   --saak-navy-950: #050f1d;
   --saak-green: #12a150;
   --saak-green-400: #3cbd74;
+  --saak-green-600: #0d8442;
+  --saak-green-700: #0b6936;
 
   /* Neutrals */
   --saak-white: #ffffff;
-  --saak-gray-50: #fafbfc;
+  --saak-cream-50: #faf8f4;
+  --saak-cream-100: #f3efe6;
   --saak-gray-100: #f4f6f8;
-  --saak-gray-200: #e8ecf1;
-  --saak-gray-300: #d6dce5;
+  --saak-gray-200: #e4e8ee;
+  --saak-gray-300: #cdd4de;
+  --saak-gray-500: #6b7686;
+  --saak-gray-900: #16202e;
 
   /* Transparent brand tints */
   --navy-a08: rgba(20, 57, 107, 0.08);
   --navy-a14: rgba(20, 57, 107, 0.14);
-  --navy-a30: rgba(20, 57, 107, 0.3);
   --green-a12: rgba(18, 161, 80, 0.12);
-  --green-a28: rgba(18, 161, 80, 0.28);
-  --green-a60: rgba(18, 161, 80, 0.6);
+  --green-a20: rgba(18, 161, 80, 0.2);
+  --green-a30: rgba(18, 161, 80, 0.3);
   --white-a08: rgba(255, 255, 255, 0.08);
   --white-a16: rgba(255, 255, 255, 0.16);
+
+  /* Glass */
+  --glass-bg: rgba(255, 255, 255, 0.72);
+  --glass-border: rgba(255, 255, 255, 0.5);
 
   /* Spacing rhythm */
   --space-gutter: 1.25rem;
@@ -36,29 +44,27 @@
   --space-section-sm: 3.5rem;
 
   /* Motion */
-  --ease-technical: cubic-bezier(0.22, 1, 0.36, 1);
-  --ease-precise: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --dur-fast: 180ms;
   --dur-base: 320ms;
-  --dur-slow: 640ms;
+  --dur-slow: 600ms;
 
   /* Chrome */
-  --nav-height: 68px;
+  --nav-height: 76px;
 }
 
 @media (min-width: 768px) {
   :root {
-    --space-gutter: 2.5rem;
-    --space-section: 7.5rem;
-    --space-section-sm: 5rem;
+    --space-gutter: 2rem;
+    --space-section: 6rem;
+    --space-section-sm: 4rem;
   }
 }
 
 @media (min-width: 1280px) {
   :root {
-    --space-gutter: 4rem;
-    --space-section: 9.5rem;
-    --space-section-sm: 6rem;
-    --nav-height: 76px;
+    --space-gutter: 3rem;
+    --space-section: 7.5rem;
+    --space-section-sm: 5rem;
   }
 }

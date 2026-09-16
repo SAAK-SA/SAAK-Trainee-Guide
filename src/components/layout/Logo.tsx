@@ -5,17 +5,13 @@ import { UI } from '@/data/ui';
 interface LogoProps {
   tone?: 'light' | 'dark';
   className?: string;
-  /** Hides the "Trainee Guide" descriptor on tight layouts. */
   compact?: boolean;
 }
 
 /**
- * SAAK lockup.
- *
- * The mark below is a neutral typographic lockup built from the circuit
- * language — it is a stand-in, not a reproduction of the corporate logo.
- * To use the official asset, drop it at /public/logo.svg and swap the <svg>
- * for <img src="/logo.svg" alt="SAAK International" />.
+ * SAAK lockup — a typographic mark on a navy tile with a green connection
+ * accent. Neutral stand-in for the official logo; drop /public/logo.svg
+ * and swap the <svg> for an <img> when the real asset arrives.
  */
 export function Logo({ tone = 'light', className, compact = false }: LogoProps) {
   const { t } = useLanguage();
@@ -25,25 +21,25 @@ export function Logo({ tone = 'light', className, compact = false }: LogoProps) 
     <span className={cn('inline-flex items-center gap-3', className)}>
       <svg
         viewBox="0 0 32 32"
-        className="h-8 w-8 shrink-0"
+        className="h-9 w-9 shrink-0"
         fill="none"
         aria-hidden="true"
         focusable="false"
       >
         <rect
-          x="0.75"
-          y="0.75"
-          width="30.5"
-          height="30.5"
-          rx="4"
-          className={isDark ? 'fill-white/5 stroke-white/25' : 'fill-navy stroke-navy'}
-          strokeWidth="1.5"
+          x="0.5"
+          y="0.5"
+          width="31"
+          height="31"
+          rx="8"
+          className={isDark ? 'fill-white/8 stroke-white/25' : 'fill-navy stroke-navy'}
+          strokeWidth="1"
         />
         <path
           d="M8 21h5.5L18 11h6"
-          className={isDark ? 'stroke-white' : 'stroke-white'}
-          strokeWidth="1.6"
-          strokeLinecap="square"
+          className="stroke-white"
+          strokeWidth="1.8"
+          strokeLinecap="round"
         />
         <circle cx="8" cy="21" r="2.4" fill="var(--saak-green)" />
         <circle cx="24" cy="11" r="2" fill="var(--saak-green)" />
@@ -52,7 +48,7 @@ export function Logo({ tone = 'light', className, compact = false }: LogoProps) 
       <span className="flex flex-col leading-none">
         <span
           className={cn(
-            'font-sans text-[17px] font-semibold tracking-[0.16em]',
+            'text-[18px] font-bold tracking-[0.14em]',
             isDark ? 'text-white' : 'text-navy-900',
           )}
         >
@@ -61,8 +57,8 @@ export function Logo({ tone = 'light', className, compact = false }: LogoProps) 
         {!compact ? (
           <span
             className={cn(
-              'mt-1 font-mono text-[9px] uppercase tracking-[0.28em]',
-              isDark ? 'text-white/60' : 'text-navy/70',
+              'mt-1 text-[10px] font-semibold uppercase tracking-[0.22em]',
+              isDark ? 'text-white/60' : 'text-neutralx-500',
             )}
           >
             {t(UI.productName)}

@@ -1,22 +1,20 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
 import { Check, Send } from 'lucide-react';
 import { useLanguage } from '@/i18n/LanguageContext';
 import { ACKNOWLEDGEMENT } from '@/data/content';
-import { Section } from '@/components/ui/Section';
 import { SectionHeading } from '@/components/ui/SectionHeading';
-import { Reveal } from '@/components/ui/Reveal';
+import { TechnicalLabel } from '@/components/ui/TechnicalLabel';
 import { cn } from '@/lib/cn';
 
 /**
  * Endpoint the acknowledgement form submits to.
  *
- * To connect the form:
- *   1. Create a form endpoint on Formspree (https://formspree.io) or Google Forms.
- *   2. Paste the resulting endpoint URL below in place of the empty string.
+ * Connect the form:
+ *   1. Create a form endpoint on Formspree (https://formspree.io) or a
+ *      Google Apps Script web app.
+ *   2. Paste the endpoint URL below in place of the empty string.
  *
- * Until this is set, the form displays an "endpoint not configured" notice
- * when the user submits — nothing is sent.
+ * Until then the form shows an inline "endpoint not configured" notice.
  */
 const FORM_ENDPOINT: string = '';
 
@@ -29,23 +27,20 @@ export function Acknowledgement() {
   const [period, setPeriod] = useState('');
   const [consent, setConsent] = useState(false);
   const [status, setStatus] = useState<Status>('idle');
-  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const submit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
     if (!fullName.trim() || !period.trim() || !consent) {
       setStatus('error');
       setErrorMessage(t(ACKNOWLEDGEMENT.requiredFields));
       return;
     }
-
     if (!FORM_ENDPOINT) {
       setStatus('error');
       setErrorMessage(t(ACKNOWLEDGEMENT.errorNotConfigured));
       return;
     }
-
     try {
       setStatus('submitting');
       setErrorMessage('');
@@ -72,117 +67,110 @@ export function Acknowledgement() {
   };
 
   return (
-    <Section id="acknowledgement" tone="muted">
-      <div className="shell">
-        <SectionHeading
-          id="acknowledgement"
-          eyebrow={t(ACKNOWLEDGEMENT.eyebrow)}
-          title={t(ACKNOWLEDGEMENT.title)}
-        />
+    <div id="acknowledgement" aria-labelledby="acknowledgement-heading">
+      <SectionHeading
+        id="acknowledgement"
+        eyebrow={t(ACKNOWLEDGEMENT.eyebrow)}
+        title={t(ACKNOWLEDGEMENT.title)}
+      />
 
-        <Reveal delay={0.1}>
-          <div className="mt-10 max-w-3xl rounded-lg border border-navy/10 bg-white p-8 shadow-card md:p-10">
-            {status === 'success' ? (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4 }}
-                className="flex flex-col items-start gap-4"
-              >
-                <span className="inline-flex h-14 w-14 items-center justify-center rounded-full bg-green text-white">
-                  <Check className="h-6 w-6" strokeWidth={2.4} aria-hidden="true" />
-                </span>
-                <h3 className="text-h2 text-navy-900">{t(ACKNOWLEDGEMENT.successTitle)}</h3>
-                <p className="text-body text-navy/75">{t(ACKNOWLEDGEMENT.successBody)}</p>
-              </motion.div>
-            ) : (
-              <>
-                <p className="text-body text-navy-900/90">{t(ACKNOWLEDGEMENT.statement)}</p>
+      {status === 'success' ? (
+        <section className="mx-auto mt-10 max-w-2xl animate-success-in rounded-lg border border-neutralx-200 bg-white p-10 text-center shadow-md">
+          <span
+            className="mx-auto inline-flex h-20 w-20 items-center justify-center rounded-pill text-green"
+            style={{ background: 'rgba(18,161,80,0.12)' }}
+            aria-hidden="true"
+          >
+            <Check className="h-9 w-9" strokeWidth={2.5} />
+          </span>
+          <h3 className="mt-5 text-h2 text-navy-900">{t(ACKNOWLEDGEMENT.successTitle)}</h3>
+          <p className="mt-3 text-body text-neutralx-500">{t(ACKNOWLEDGEMENT.successBody)}</p>
+        </section>
+      ) : (
+        <form
+          onSubmit={submit}
+          className="mx-auto mt-10 max-w-2xl rounded-lg border border-neutralx-200 bg-white p-8 shadow-sm md:p-10"
+          noValidate
+        >
+          <p
+            className="rounded-md border-s-4 border-green bg-cream-50 p-4 text-body text-navy-900"
+          >
+            {t(ACKNOWLEDGEMENT.statement)}
+          </p>
 
-                <form onSubmit={submit} className="mt-8 space-y-6" noValidate>
-                  <fieldset className="space-y-6">
-                    <legend className="tech-label mb-2 text-navy/70">
-                      {t(ACKNOWLEDGEMENT.informationLabel)}
-                    </legend>
+          <fieldset className="mt-6 grid gap-5 md:grid-cols-2">
+            <legend className="sr-only">{t(ACKNOWLEDGEMENT.informationLabel)}</legend>
 
-                    <div className="grid gap-6 md:grid-cols-2">
-                      <label className="block">
-                        <span className="text-small font-medium text-navy-900">
-                          {t(ACKNOWLEDGEMENT.fullNameLabel)}
-                        </span>
-                        <input
-                          type="text"
-                          name="fullName"
-                          required
-                          value={fullName}
-                          onChange={(event) => setFullName(event.target.value)}
-                          placeholder={t(ACKNOWLEDGEMENT.fullNamePlaceholder)}
-                          className="mt-2 w-full rounded-md border border-navy/15 bg-neutralx-50 px-4 py-3 text-body text-navy-900 placeholder:text-navy/40 focus:border-green focus:bg-white focus:outline-none focus:ring-2 focus:ring-green/30"
-                        />
-                      </label>
+            <label className="flex flex-col gap-1.5">
+              <span className="text-small font-semibold text-navy-900">
+                {t(ACKNOWLEDGEMENT.fullNameLabel)}
+              </span>
+              <input
+                type="text"
+                required
+                value={fullName}
+                onChange={(event) => setFullName(event.target.value)}
+                placeholder={t(ACKNOWLEDGEMENT.fullNamePlaceholder)}
+                className="rounded-sm border border-neutralx-200 bg-white px-4 py-3 text-body text-navy-900 placeholder:text-neutralx-400 transition-all focus:border-green focus:outline-none focus:ring-4 focus:ring-green/20"
+              />
+            </label>
 
-                      <label className="block">
-                        <span className="text-small font-medium text-navy-900">
-                          {t(ACKNOWLEDGEMENT.periodLabel)}
-                        </span>
-                        <input
-                          type="text"
-                          name="trainingPeriod"
-                          required
-                          value={period}
-                          onChange={(event) => setPeriod(event.target.value)}
-                          placeholder={t(ACKNOWLEDGEMENT.periodPlaceholder)}
-                          className="mt-2 w-full rounded-md border border-navy/15 bg-neutralx-50 px-4 py-3 text-body text-navy-900 placeholder:text-navy/40 focus:border-green focus:bg-white focus:outline-none focus:ring-2 focus:ring-green/30"
-                        />
-                      </label>
-                    </div>
-                  </fieldset>
+            <label className="flex flex-col gap-1.5">
+              <span className="text-small font-semibold text-navy-900">
+                {t(ACKNOWLEDGEMENT.periodLabel)}
+              </span>
+              <input
+                type="text"
+                required
+                value={period}
+                onChange={(event) => setPeriod(event.target.value)}
+                placeholder={t(ACKNOWLEDGEMENT.periodPlaceholder)}
+                className="rounded-sm border border-neutralx-200 bg-white px-4 py-3 text-body text-navy-900 placeholder:text-neutralx-400 transition-all focus:border-green focus:outline-none focus:ring-4 focus:ring-green/20"
+              />
+            </label>
+          </fieldset>
 
-                  <label className="flex items-start gap-3">
-                    <input
-                      type="checkbox"
-                      name="consent"
-                      checked={consent}
-                      onChange={(event) => setConsent(event.target.checked)}
-                      required
-                      className="mt-1 h-4 w-4 shrink-0 rounded border-navy/20 text-green focus:ring-2 focus:ring-green/40"
-                    />
-                    <span className="text-small text-navy-900">{t(ACKNOWLEDGEMENT.consent)}</span>
-                  </label>
+          <label className="mt-6 flex cursor-pointer items-start gap-3">
+            <input
+              type="checkbox"
+              checked={consent}
+              onChange={(event) => setConsent(event.target.checked)}
+              required
+              className="mt-1 h-5 w-5 shrink-0 rounded-sm border-neutralx-300 text-green focus:ring-2 focus:ring-green/40"
+              style={{ accentColor: 'var(--saak-green)' }}
+            />
+            <span className="text-small text-navy-900">{t(ACKNOWLEDGEMENT.consent)}</span>
+          </label>
 
-                  {status === 'error' && errorMessage ? (
-                    <div
-                      role="alert"
-                      className="rounded-md border border-red-200 bg-red-50 px-4 py-3 text-small text-red-800"
-                    >
-                      {errorMessage}
-                    </div>
-                  ) : null}
+          {status === 'error' && errorMessage ? (
+            <div
+              role="alert"
+              className="mt-4 rounded-md border border-red-200 bg-red-50 px-4 py-3 text-small text-red-800"
+            >
+              {errorMessage}
+            </div>
+          ) : null}
 
-                  <button
-                    type="submit"
-                    disabled={status === 'submitting'}
-                    className={cn(
-                      'group inline-flex items-center gap-3 rounded-md bg-navy px-6 py-3.5 text-small font-medium text-white transition-all duration-base',
-                      status === 'submitting'
-                        ? 'cursor-not-allowed opacity-70'
-                        : 'hover:-translate-y-0.5 hover:bg-green hover:shadow-card-hover',
-                    )}
-                  >
-                    {status === 'submitting'
-                      ? t(ACKNOWLEDGEMENT.submitting)
-                      : t(ACKNOWLEDGEMENT.submit)}
-                    <Send
-                      className="h-4 w-4 transition-transform duration-base ease-technical group-hover:translate-x-0.5"
-                      aria-hidden="true"
-                    />
-                  </button>
-                </form>
-              </>
-            )}
+          <div className="mt-6 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <TechnicalLabel tone="muted">{t(ACKNOWLEDGEMENT.informationLabel)}</TechnicalLabel>
+            <button
+              type="submit"
+              disabled={status === 'submitting' || !consent}
+              className={cn(
+                'group inline-flex items-center gap-2.5 rounded-pill bg-green px-8 py-4 text-small font-semibold text-white shadow-sm transition-all duration-base',
+                status === 'submitting' || !consent
+                  ? 'cursor-not-allowed opacity-40'
+                  : 'hover:-translate-y-0.5 hover:bg-green-600 hover:shadow-md',
+              )}
+            >
+              {status === 'submitting'
+                ? t(ACKNOWLEDGEMENT.submitting)
+                : t(ACKNOWLEDGEMENT.submit)}
+              <Send className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+            </button>
           </div>
-        </Reveal>
-      </div>
-    </Section>
+        </form>
+      )}
+    </div>
   );
 }

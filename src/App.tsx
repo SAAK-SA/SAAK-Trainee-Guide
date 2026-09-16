@@ -1,7 +1,6 @@
 import { useCallback, useState } from 'react';
 import { LanguageProvider, useLanguage } from '@/i18n/LanguageContext';
-import { useActiveSection } from '@/hooks/useActiveSection';
-import { SECTION_IDS } from '@/data/content';
+import { SECTIONS } from '@/data/content';
 import { UI } from '@/data/ui';
 
 import { Navbar } from '@/components/layout/Navbar';
@@ -22,44 +21,59 @@ import { Contact } from '@/components/sections/Contact';
 import { Completion } from '@/components/sections/Completion';
 import { Acknowledgement } from '@/components/sections/Acknowledgement';
 
-/**
- * Page composition.
- * The tonal rhythm alternates light/muted/dark to keep the scroll legible
- * without heavy dividers between sections.
- */
+import { WizardProvider } from '@/wizard/WizardContext';
+import { WizardProgress } from '@/wizard/WizardProgress';
+import { WizardNav } from '@/wizard/WizardNav';
+import { Step } from '@/wizard/Step';
+
+const STEP_COMPONENTS = [
+  About,
+  Vision,
+  Starting,
+  Experience,
+  Conduct,
+  Safety,
+  Confidentiality,
+  Property,
+  Compliance,
+  Contact,
+  Completion,
+  Acknowledgement,
+];
+
+const STEP_IDS = SECTIONS.filter((s) => s.inNav).map((s) => s.id);
+
 function Page() {
   const { t } = useLanguage();
   const [menuOpen, setMenuOpen] = useState(false);
-  const activeId = useActiveSection(SECTION_IDS);
-
   const closeMenu = useCallback(() => setMenuOpen(false), []);
 
   return (
-    <div className="relative min-h-screen w-full overflow-x-hidden bg-neutralx-0">
+    <div className="relative min-h-screen w-full overflow-x-hidden bg-white">
       <a
-        href="#about"
-        className="sr-only rounded-sm bg-navy px-4 py-3 font-mono text-tech uppercase text-white focus:not-sr-only focus:fixed focus:start-4 focus:top-4 focus:z-[70]"
+        href="#wizard"
+        className="sr-only rounded-sm bg-navy px-4 py-3 text-tech uppercase text-white focus:not-sr-only focus:fixed focus:start-4 focus:top-4 focus:z-[70]"
       >
         {t(UI.skipToContent)}
       </a>
 
-      <Navbar activeId={activeId} onOpenMenu={() => setMenuOpen(true)} />
-      <MobileNavigation open={menuOpen} activeId={activeId} onClose={closeMenu} />
+      <Navbar onOpenMenu={() => setMenuOpen(true)} />
+      <MobileNavigation open={menuOpen} onClose={closeMenu} />
 
-      <main id="main">
+      <main>
         <Hero />
-        <About />
-        <Vision />
-        <Starting />
-        <Experience />
-        <Conduct />
-        <Safety />
-        <Confidentiality />
-        <Property />
-        <Compliance />
-        <Contact />
-        <Completion />
-        <Acknowledgement />
+
+        <section id="wizard" className="bg-cream-50 py-section">
+          <div className="shell">
+            <WizardProgress />
+            {STEP_COMPONENTS.map((StepComponent, index) => (
+              <Step key={STEP_IDS[index]} index={index} id={STEP_IDS[index]}>
+                <StepComponent />
+              </Step>
+            ))}
+            <WizardNav />
+          </div>
+        </section>
       </main>
 
       <Footer />
@@ -70,7 +84,9 @@ function Page() {
 export default function App() {
   return (
     <LanguageProvider>
-      <Page />
+      <WizardProvider total={STEP_COMPONENTS.length}>
+        <Page />
+      </WizardProvider>
     </LanguageProvider>
   );
 }
