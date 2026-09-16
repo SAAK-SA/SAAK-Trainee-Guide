@@ -6,10 +6,10 @@ import { UI } from '@/data/ui';
 import { Navbar } from '@/components/layout/Navbar';
 import { MobileNavigation } from '@/components/layout/MobileNavigation';
 import { Footer } from '@/components/layout/Footer';
+import { LoadingScreen } from '@/components/layout/LoadingScreen';
 
 import { Hero } from '@/components/sections/Hero';
 import { About } from '@/components/sections/About';
-import { Vision } from '@/components/sections/Vision';
 import { Starting } from '@/components/sections/Starting';
 import { Experience } from '@/components/sections/Experience';
 import { Conduct } from '@/components/sections/Conduct';
@@ -28,7 +28,6 @@ import { Step } from '@/wizard/Step';
 
 const STEP_COMPONENTS = [
   About,
-  Vision,
   Starting,
   Experience,
   Conduct,
@@ -50,6 +49,8 @@ function Page() {
 
   return (
     <div className="relative min-h-screen w-full overflow-x-hidden bg-white">
+      <LoadingScreen />
+
       <a
         href="#wizard"
         className="sr-only rounded-sm bg-navy px-4 py-3 text-tech uppercase text-white focus:not-sr-only focus:fixed focus:start-4 focus:top-4 focus:z-[70]"

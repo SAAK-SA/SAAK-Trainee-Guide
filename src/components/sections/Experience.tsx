@@ -1,3 +1,4 @@
+import { GraduationCap } from 'lucide-react';
 import { useLanguage } from '@/i18n/LanguageContext';
 import { EXPERIENCE } from '@/data/content';
 import { SectionHeading } from '@/components/ui/SectionHeading';
@@ -13,6 +14,7 @@ export function Experience() {
         eyebrow={t(EXPERIENCE.eyebrow)}
         title={t(EXPERIENCE.title)}
         lead={t(EXPERIENCE.lead)}
+        icon={GraduationCap}
       />
 
       <div className="mt-8 max-w-3xl">

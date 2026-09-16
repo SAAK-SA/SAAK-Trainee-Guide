@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import type { LucideIcon } from 'lucide-react';
 import { cn } from '@/lib/cn';
 
 interface SectionHeadingProps {
@@ -6,6 +7,8 @@ interface SectionHeadingProps {
   eyebrow: string;
   title: string;
   lead?: string;
+  /** Optional icon rendered as a green plaque above the eyebrow. */
+  icon?: LucideIcon;
   align?: 'start' | 'center';
   tone?: 'light' | 'dark';
   className?: string;
@@ -13,14 +16,15 @@ interface SectionHeadingProps {
 }
 
 /**
- * The standard entry to a step: eyebrow (small green uppercase label),
- * title, and an optional lead paragraph. Text-forward, no ornament.
+ * The standard entry to a step: optional icon plaque, eyebrow label,
+ * title, and an optional lead paragraph.
  */
 export function SectionHeading({
   id,
   eyebrow,
   title,
   lead,
+  icon: Icon,
   align = 'start',
   tone = 'light',
   className,
@@ -36,9 +40,25 @@ export function SectionHeading({
         className,
       )}
     >
+      {Icon ? (
+        <span
+          className={cn(
+            'mb-4 inline-flex h-12 w-12 items-center justify-center rounded-md text-white shadow-sm',
+            align === 'center' && 'mx-auto',
+          )}
+          style={{
+            background:
+              'linear-gradient(135deg, var(--saak-green), var(--saak-green-600))',
+          }}
+          aria-hidden="true"
+        >
+          <Icon className="h-5 w-5" strokeWidth={2} />
+        </span>
+      ) : null}
+
       <span
         className={cn(
-          'inline-block text-label uppercase',
+          'block text-label uppercase',
           isDark ? 'text-green-400' : 'text-green-600',
         )}
       >

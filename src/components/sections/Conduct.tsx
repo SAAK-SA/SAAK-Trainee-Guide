@@ -1,4 +1,4 @@
-import { Clock } from 'lucide-react';
+import { Clock, HandHeart } from 'lucide-react';
 import { useLanguage } from '@/i18n/LanguageContext';
 import { CONDUCT } from '@/data/content';
 import { SectionHeading } from '@/components/ui/SectionHeading';
@@ -15,6 +15,7 @@ export function Conduct() {
         eyebrow={t(CONDUCT.eyebrow)}
         title={t(CONDUCT.title)}
         lead={t(CONDUCT.lead)}
+        icon={HandHeart}
       />
 
       <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">

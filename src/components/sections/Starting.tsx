@@ -1,3 +1,4 @@
+import { Compass } from 'lucide-react';
 import { useLanguage } from '@/i18n/LanguageContext';
 import { STARTING } from '@/data/content';
 import { SectionHeading } from '@/components/ui/SectionHeading';
@@ -13,6 +14,7 @@ export function Starting() {
         eyebrow={t(STARTING.eyebrow)}
         title={t(STARTING.title)}
         lead={t(STARTING.lead)}
+        icon={Compass}
       />
 
       <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">

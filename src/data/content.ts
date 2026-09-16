@@ -50,6 +50,8 @@ export interface SectionMeta {
   index: string;
   /** Short navigation label. */
   nav: Localized;
+  /** Icon used in the mobile menu and step marker. */
+  icon: IconName;
   /** Whether the section appears in the primary navigation. */
   inNav: boolean;
   /** Visual register of the section — drives the rhythm of the page. */
@@ -60,19 +62,18 @@ export type NavPriority = 'primary' | 'secondary';
 
 /** Ordered section registry — drives navigation and the section rhythm. */
 export const SECTIONS: readonly (SectionMeta & { navPriority?: NavPriority })[] = [
-  { id: 'hero', index: '00', nav: { en: 'Welcome', ar: 'الترحيب' }, inNav: false, tone: 'dark' },
-  { id: 'about', index: '01', nav: { en: 'About', ar: 'عن الشركة' }, inNav: true, navPriority: 'primary', tone: 'light' },
-  { id: 'vision', index: '02', nav: { en: 'Vision', ar: 'الرؤية' }, inNav: true, navPriority: 'primary', tone: 'muted' },
-  { id: 'starting', index: '03', nav: { en: 'Starting', ar: 'بداية التدريب' }, inNav: true, navPriority: 'primary', tone: 'light' },
-  { id: 'experience', index: '04', nav: { en: 'Experience', ar: 'التجربة' }, inNav: true, navPriority: 'secondary', tone: 'dark' },
-  { id: 'conduct', index: '05', nav: { en: 'Conduct', ar: 'السلوك' }, inNav: true, navPriority: 'primary', tone: 'light' },
-  { id: 'safety', index: '06', nav: { en: 'Safety', ar: 'السلامة' }, inNav: true, navPriority: 'primary', tone: 'muted' },
-  { id: 'confidentiality', index: '07', nav: { en: 'Confidentiality', ar: 'السرية' }, inNav: true, navPriority: 'secondary', tone: 'light' },
-  { id: 'property', index: '08', nav: { en: 'Property', ar: 'الممتلكات' }, inNav: true, navPriority: 'secondary', tone: 'muted' },
-  { id: 'compliance', index: '09', nav: { en: 'Compliance', ar: 'الالتزام' }, inNav: true, navPriority: 'secondary', tone: 'light' },
-  { id: 'contact', index: '10', nav: { en: 'Contact', ar: 'التواصل' }, inNav: true, navPriority: 'primary', tone: 'dark' },
-  { id: 'completion', index: '11', nav: { en: 'Completion', ar: 'الختام' }, inNav: true, navPriority: 'secondary', tone: 'light' },
-  { id: 'acknowledgement', index: '12', nav: { en: 'Acknowledgement', ar: 'الإقرار' }, inNav: true, navPriority: 'primary', tone: 'muted' },
+  { id: 'hero', index: '00', nav: { en: 'Welcome', ar: 'الترحيب' }, icon: 'sparkle', inNav: false, tone: 'dark' },
+  { id: 'about', index: '01', nav: { en: 'About', ar: 'عن الشركة' }, icon: 'building', inNav: true, navPriority: 'primary', tone: 'light' },
+  { id: 'starting', index: '02', nav: { en: 'Starting', ar: 'بداية التدريب' }, icon: 'compass', inNav: true, navPriority: 'primary', tone: 'light' },
+  { id: 'experience', index: '03', nav: { en: 'Experience', ar: 'التجربة' }, icon: 'graduation', inNav: true, navPriority: 'secondary', tone: 'dark' },
+  { id: 'conduct', index: '04', nav: { en: 'Conduct', ar: 'السلوك' }, icon: 'handshake', inNav: true, navPriority: 'primary', tone: 'light' },
+  { id: 'safety', index: '05', nav: { en: 'Safety', ar: 'السلامة' }, icon: 'hardhat', inNav: true, navPriority: 'primary', tone: 'muted' },
+  { id: 'confidentiality', index: '06', nav: { en: 'Confidentiality', ar: 'السرية' }, icon: 'lock', inNav: true, navPriority: 'secondary', tone: 'light' },
+  { id: 'property', index: '07', nav: { en: 'Property', ar: 'الممتلكات' }, icon: 'wrench', inNav: true, navPriority: 'secondary', tone: 'muted' },
+  { id: 'compliance', index: '08', nav: { en: 'Compliance', ar: 'الالتزام' }, icon: 'scale', inNav: true, navPriority: 'secondary', tone: 'light' },
+  { id: 'contact', index: '09', nav: { en: 'Contact', ar: 'التواصل' }, icon: 'phone', inNav: true, navPriority: 'primary', tone: 'dark' },
+  { id: 'completion', index: '10', nav: { en: 'Completion', ar: 'الختام' }, icon: 'award', inNav: true, navPriority: 'secondary', tone: 'light' },
+  { id: 'acknowledgement', index: '11', nav: { en: 'Acknowledgement', ar: 'الإقرار' }, icon: 'check', inNav: true, navPriority: 'primary', tone: 'muted' },
 ] as const;
 
 export const SECTION_IDS = SECTIONS.map((section) => section.id);

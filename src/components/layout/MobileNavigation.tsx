@@ -4,6 +4,7 @@ import { useLanguage } from '@/i18n/LanguageContext';
 import { SECTIONS } from '@/data/content';
 import { UI } from '@/data/ui';
 import { cn } from '@/lib/cn';
+import { ICONS } from '@/lib/icons';
 import { Logo } from './Logo';
 import { LanguageToggle } from './LanguageToggle';
 import { useWizardCtx } from '@/wizard/WizardContext';
@@ -104,6 +105,7 @@ export function MobileNavigation({ open, onClose }: MobileNavigationProps) {
         <ul className="m-0 list-none p-0">
           {NAV_STEPS.map((section, index) => {
             const active = index === step;
+            const SectionIcon = ICONS[section.icon];
             return (
               <li key={section.id} className="border-b border-white/10">
                 <button
@@ -112,8 +114,16 @@ export function MobileNavigation({ open, onClose }: MobileNavigationProps) {
                   aria-current={active ? 'true' : undefined}
                   className="group flex w-full items-center gap-4 py-4 text-start"
                 >
-                  <span className="w-8 text-xs font-semibold uppercase tracking-[0.14em] text-white/50">
-                    {section.index}
+                  <span
+                    className={cn(
+                      'inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-md transition-colors duration-base',
+                      active
+                        ? 'bg-green text-white'
+                        : 'bg-white/8 text-white/70 group-hover:bg-white/12 group-hover:text-white',
+                    )}
+                    aria-hidden="true"
+                  >
+                    <SectionIcon className="h-5 w-5" strokeWidth={1.8} />
                   </span>
                   <span
                     className={cn(

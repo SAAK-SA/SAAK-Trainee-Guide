@@ -1,3 +1,4 @@
+import { Lock } from 'lucide-react';
 import { useLanguage } from '@/i18n/LanguageContext';
 import { CONFIDENTIALITY } from '@/data/content';
 import { SectionHeading } from '@/components/ui/SectionHeading';
@@ -13,6 +14,7 @@ export function Confidentiality() {
         eyebrow={t(CONFIDENTIALITY.eyebrow)}
         title={t(CONFIDENTIALITY.title)}
         lead={t(CONFIDENTIALITY.lead)}
+        icon={Lock}
       />
 
       <PolicyPanel
