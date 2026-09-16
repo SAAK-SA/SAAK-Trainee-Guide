@@ -3,44 +3,30 @@ import { ArrowRight, ArrowLeft } from 'lucide-react';
 import { cn } from '@/lib/cn';
 import { useLanguage } from '@/i18n/LanguageContext';
 
-type Variant = 'primary' | 'outline' | 'ghost';
+type Variant = 'primary' | 'accent' | 'outline' | 'ghost-light';
 
 interface ButtonProps {
   children: ReactNode;
-  /** Anchor target id; when present the button renders as a link. */
   href?: string;
   onClick?: () => void;
   variant?: Variant;
   className?: string;
-  /** Shows a direction-aware arrow that shifts on hover. */
   arrow?: boolean;
-  tone?: 'light' | 'dark';
   type?: 'button' | 'submit';
 }
 
 const BASE =
-  'group relative inline-flex items-center justify-center gap-3 rounded-sm px-6 py-3.5 font-mono text-tech uppercase transition-all duration-base ease-technical focus-visible:outline-none';
+  'group relative inline-flex items-center justify-center gap-2.5 rounded-pill px-7 py-3.5 text-small font-semibold whitespace-nowrap transition-all duration-base ease-technical hover:-translate-y-0.5';
 
-const VARIANTS: Record<Variant, Record<'light' | 'dark', string>> = {
-  primary: {
-    light: 'bg-navy text-white hover:bg-navy-700 hover:-translate-y-0.5 hover:shadow-card-hover',
-    dark: 'bg-white text-navy-900 hover:bg-green hover:text-white hover:-translate-y-0.5',
-  },
-  outline: {
-    light: 'border border-navy/20 text-navy hover:border-green hover:text-green-700 hover:-translate-y-0.5',
-    dark: 'border border-white/25 text-white hover:border-green hover:text-green hover:-translate-y-0.5',
-  },
-  ghost: {
-    light: 'text-navy hover:text-green-700',
-    dark: 'text-white/80 hover:text-green',
-  },
+const VARIANTS: Record<Variant, string> = {
+  primary: 'bg-navy text-white shadow-sm hover:bg-navy-700 hover:shadow-md',
+  accent: 'bg-green text-white shadow-sm hover:bg-green-600 hover:shadow-md',
+  outline:
+    'border border-neutralx-200 bg-white text-navy hover:border-green hover:text-green-700 hover:shadow-sm',
+  'ghost-light': 'border border-white/50 text-white hover:bg-white/12',
 };
 
-/**
- * Technical action control.
- * Default state is navy; hover introduces the green accent and a 2px lift, and
- * a green trace grows under the label to mark the active connection.
- */
+/** Pill-shaped button — the primary action language of the SAAK Team style. */
 export function Button({
   children,
   href,
@@ -48,7 +34,6 @@ export function Button({
   variant = 'primary',
   className,
   arrow = false,
-  tone = 'light',
   type = 'button',
 }: ButtonProps) {
   const { isRTL } = useLanguage();
@@ -56,25 +41,21 @@ export function Button({
 
   const content = (
     <>
-      <span className="relative z-10">{children}</span>
+      <span>{children}</span>
       {arrow ? (
         <Arrow
           className={cn(
-            'relative z-10 h-4 w-4 transition-transform duration-base ease-technical',
-            isRTL ? 'group-hover:-translate-x-1' : 'group-hover:translate-x-1',
+            'h-4 w-4 transition-transform duration-base ease-technical',
+            isRTL ? 'group-hover:-translate-x-0.5' : 'group-hover:translate-x-0.5',
           )}
+          strokeWidth={2}
           aria-hidden="true"
         />
       ) : null}
-      {/* Connection trace revealed on hover. */}
-      <span
-        className="pointer-events-none absolute bottom-0 start-0 h-px w-0 bg-green transition-[width] duration-base ease-technical group-hover:w-full"
-        aria-hidden="true"
-      />
     </>
   );
 
-  const classes = cn(BASE, VARIANTS[variant][tone], className);
+  const classes = cn(BASE, VARIANTS[variant], className);
 
   if (href) {
     return (

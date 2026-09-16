@@ -1,9 +1,6 @@
 import type { Localized } from '@/i18n/types';
 
-/**
- * Interface chrome strings (navigation, controls, states).
- * Section body content lives in data/content.ts.
- */
+/** Interface chrome strings. Body content lives in data/content.ts. */
 export const UI = {
   brandName: { en: 'SAAK', ar: 'SAAK' } satisfies Localized,
   brandSuffix: { en: 'INTERNATIONAL', ar: 'INTERNATIONAL' } satisfies Localized,
@@ -13,15 +10,18 @@ export const UI = {
   closeMenu: { en: 'Close navigation menu', ar: 'إغلاق قائمة التنقل' } satisfies Localized,
   menu: { en: 'Menu', ar: 'القائمة' } satisfies Localized,
   sections: { en: 'Sections', ar: 'الأقسام' } satisfies Localized,
-  sectionProgress: { en: 'Section progress', ar: 'تقدّم الأقسام' } satisfies Localized,
   languageToggle: { en: 'Switch language', ar: 'تغيير اللغة' } satisfies Localized,
-  scrollHint: { en: 'Scroll to begin', ar: 'مرّر للبدء' } satisfies Localized,
+  scrollHint: { en: 'Start the guide', ar: 'ابدأ الدليل' } satisfies Localized,
   copyright: {
     en: 'SAAK International. Internal training material.',
-    ar: 'SAAK International — مادة تدريبية داخلية.',
+    ar: 'ساك الدولية — مادة تدريبية داخلية.',
   } satisfies Localized,
-  documentRef: { en: 'DOC. REF', ar: 'مرجع المستند' } satisfies Localized,
-  revision: { en: 'REV', ar: 'المراجعة' } satisfies Localized,
   backToTop: { en: 'Back to top', ar: 'العودة إلى الأعلى' } satisfies Localized,
   quickLinks: { en: 'Quick links', ar: 'روابط سريعة' } satisfies Localized,
+  prev: { en: 'Previous', ar: 'السابق' } satisfies Localized,
+  next: { en: 'Next', ar: 'التالي' } satisfies Localized,
+  tagline: {
+    en: 'Engineering, technical, and administrative expertise for the next generation.',
+    ar: 'خبرات هندسية وفنية وإدارية لتأهيل الجيل القادم.',
+  } satisfies Localized,
 } as const;

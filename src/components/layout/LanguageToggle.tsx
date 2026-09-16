@@ -1,6 +1,6 @@
+import { Globe } from 'lucide-react';
 import { cn } from '@/lib/cn';
 import { useLanguage } from '@/i18n/LanguageContext';
-import { LOCALES } from '@/i18n/types';
 import { UI } from '@/data/ui';
 
 interface LanguageToggleProps {
@@ -9,47 +9,30 @@ interface LanguageToggleProps {
 }
 
 /**
- * English / Arabic switch.
- * Each label is written in its own language and the control announces the
- * active locale, so it works without relying on colour alone.
+ * Pill-shaped globe + language label — click to switch between EN and AR.
+ * Matches SAAK Team's language switch: one button, not a two-segment radio.
  */
 export function LanguageToggle({ tone = 'light', className }: LanguageToggleProps) {
-  const { locale, setLocale, t } = useLanguage();
+  const { locale, toggleLocale, t } = useLanguage();
   const isDark = tone === 'dark';
+  const label = locale === 'ar' ? 'EN' : 'العربية';
 
   return (
-    <div
+    <button
+      type="button"
+      onClick={toggleLocale}
+      lang={locale === 'ar' ? 'en' : 'ar'}
+      aria-label={t(UI.languageToggle)}
       className={cn(
-        'inline-flex items-center rounded-sm border p-0.5',
-        isDark ? 'border-white/20' : 'border-navy/15',
+        'inline-flex items-center gap-2 rounded-pill border px-4 py-2 text-small font-semibold transition-all duration-fast',
+        isDark
+          ? 'border-white/30 text-white hover:border-green hover:bg-white/10'
+          : 'border-neutralx-200 bg-white text-navy hover:border-green hover:bg-cream-50',
         className,
       )}
-      role="group"
-      aria-label={t(UI.languageToggle)}
     >
-      {(Object.keys(LOCALES) as Array<keyof typeof LOCALES>).map((code) => {
-        const meta = LOCALES[code];
-        const active = locale === code;
-        return (
-          <button
-            key={code}
-            type="button"
-            lang={meta.htmlLang}
-            onClick={() => setLocale(code)}
-            aria-pressed={active}
-            className={cn(
-              'rounded-xs px-2.5 py-1.5 font-mono text-meta uppercase tracking-[0.14em] transition-colors duration-fast',
-              active
-                ? 'bg-green text-white'
-                : isDark
-                  ? 'text-white/60 hover:text-white'
-                  : 'text-navy/70 hover:text-navy',
-            )}
-          >
-            {code === 'ar' ? meta.label : 'EN'}
-          </button>
-        );
-      })}
-    </div>
+      <Globe className="h-4 w-4" strokeWidth={2} aria-hidden="true" />
+      <span>{label}</span>
+    </button>
   );
 }
