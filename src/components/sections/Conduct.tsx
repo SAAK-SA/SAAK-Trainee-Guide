@@ -40,9 +40,7 @@ export function Conduct() {
             <p className="mt-1 text-h3 text-navy-900">{t(CONDUCT.hoursDays)}</p>
           </div>
         </div>
-        <p className="text-h3 text-navy-900" dir="ltr">
-          {t(CONDUCT.hoursTime)}
-        </p>
+        <p className="text-h3 text-navy-900">{t(CONDUCT.hoursTime)}</p>
       </aside>
     </div>
   );
