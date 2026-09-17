@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Check, Send, FileCheck2 } from 'lucide-react';
+import { Check, Send, FileCheck2, FileText, ExternalLink } from 'lucide-react';
 import { useLanguage } from '@/i18n/LanguageContext';
 import { ACKNOWLEDGEMENT } from '@/data/content';
 import { SectionHeading } from '@/components/ui/SectionHeading';
@@ -7,16 +7,24 @@ import { TechnicalLabel } from '@/components/ui/TechnicalLabel';
 import { cn } from '@/lib/cn';
 
 /**
- * Endpoint the acknowledgement form submits to.
+ * Where the trainee's acknowledgement is sent.
  *
- * Connect the form:
- *   1. Create a form endpoint on Formspree (https://formspree.io) or a
- *      Google Apps Script web app.
- *   2. Paste the endpoint URL below in place of the empty string.
+ * Default is FormSubmit.co, a free relay that emails every submission
+ * to the address in the URL — no account or backend needed.
  *
- * Until then the form shows an inline "endpoint not configured" notice.
+ *   Before the first live submission, FormSubmit sends ONE verification
+ *   email to AbdulazizA@saaksa.com. Click the link inside it and every
+ *   subsequent submission arrives as an email automatically.
+ *
+ * To switch to another provider (Formspree, a Google Apps Script web
+ * app, etc.), paste the endpoint URL below and — if the new provider
+ * wants form-encoded data instead of JSON — flip `USE_JSON` to false.
  */
-const FORM_ENDPOINT: string = '';
+const FORM_ENDPOINT = 'https://formsubmit.co/ajax/AbdulazizA@saaksa.com';
+const USE_JSON = true;
+
+/** Path to the work-regulations document, relative to public/. */
+const REGULATIONS_URL = 'work-regulations.pdf';
 
 type Status = 'idle' | 'submitting' | 'success' | 'error';
 
@@ -41,22 +49,34 @@ export function Acknowledgement() {
       setErrorMessage(t(ACKNOWLEDGEMENT.errorNotConfigured));
       return;
     }
+
+    const payload: Record<string, string | boolean> = {
+      fullName,
+      trainingPeriod: period,
+      consent,
+      language: locale,
+      submittedAt: new Date().toISOString(),
+      // FormSubmit hooks — ignored by other providers.
+      _subject: `SAAK International — Trainee acknowledgement (${fullName})`,
+      _template: 'table',
+      _captcha: 'false',
+    };
+
     try {
       setStatus('submitting');
       setErrorMessage('');
       const response = await fetch(FORM_ENDPOINT, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-        body: JSON.stringify({
-          fullName,
-          trainingPeriod: period,
-          consent,
-          language: locale,
-          submittedAt: new Date().toISOString(),
-        }),
+        headers: USE_JSON
+          ? { 'Content-Type': 'application/json', Accept: 'application/json' }
+          : { Accept: 'application/json' },
+        body: USE_JSON
+          ? JSON.stringify(payload)
+          : new URLSearchParams(
+              Object.fromEntries(
+                Object.entries(payload).map(([k, v]) => [k, String(v)]),
+              ),
+            ),
       });
       if (!response.ok) throw new Error(`HTTP ${response.status}`);
       setStatus('success');
@@ -65,6 +85,8 @@ export function Acknowledgement() {
       setErrorMessage(t(ACKNOWLEDGEMENT.errorGeneric));
     }
   };
+
+  const regulationsHref = `${import.meta.env.BASE_URL}${REGULATIONS_URL}`;
 
   return (
     <div id="acknowledgement" aria-labelledby="acknowledgement-heading">
@@ -93,11 +115,42 @@ export function Acknowledgement() {
           className="mx-auto mt-10 max-w-2xl rounded-lg border border-neutralx-200 bg-white p-8 shadow-sm md:p-10"
           noValidate
         >
-          <p
-            className="rounded-md border-s-4 border-green bg-cream-50 p-4 text-body text-navy-900"
-          >
+          <p className="rounded-md border-s-4 border-green bg-cream-50 p-4 text-body text-navy-900">
             {t(ACKNOWLEDGEMENT.statement)}
           </p>
+
+          {/* Work regulations link — trainees open it before signing. */}
+          <aside className="mt-6 flex flex-col gap-4 rounded-lg border border-neutralx-200 bg-cream-50 p-5 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-start gap-4">
+              <span
+                className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-md text-white shadow-sm"
+                style={{
+                  background:
+                    'linear-gradient(135deg, var(--saak-navy), var(--saak-navy-700))',
+                }}
+                aria-hidden="true"
+              >
+                <FileText className="h-5 w-5" strokeWidth={2} />
+              </span>
+              <div>
+                <p className="text-small font-bold text-navy-900">
+                  {t(ACKNOWLEDGEMENT.regulationsLabel)}
+                </p>
+                <p className="mt-1 text-small text-neutralx-500">
+                  {t(ACKNOWLEDGEMENT.regulationsHint)}
+                </p>
+              </div>
+            </div>
+            <a
+              href={regulationsHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex shrink-0 items-center gap-2 rounded-pill border border-navy bg-white px-5 py-2.5 text-small font-semibold text-navy transition-all duration-base hover:-translate-y-0.5 hover:bg-navy hover:text-white hover:shadow-sm"
+            >
+              {t(ACKNOWLEDGEMENT.regulationsAction)}
+              <ExternalLink className="h-4 w-4" strokeWidth={2} aria-hidden="true" />
+            </a>
+          </aside>
 
           <fieldset className="mt-6 grid gap-5 md:grid-cols-2">
             <legend className="sr-only">{t(ACKNOWLEDGEMENT.informationLabel)}</legend>

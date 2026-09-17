@@ -5,6 +5,17 @@ import { SectionHeading } from '@/components/ui/SectionHeading';
 
 const CARD_ICONS = [User, Phone, Mail];
 
+/** Wrap phone/email values in a tel:/mailto: link so trainees can act. */
+function contactHref(id: string, valueEn: string): string | undefined {
+  if (id === 'contact-phone') {
+    return `tel:${valueEn.replace(/\s+/g, '')}`;
+  }
+  if (id === 'contact-email') {
+    return `mailto:${valueEn}`;
+  }
+  return undefined;
+}
+
 export function Contact() {
   const { t } = useLanguage();
 
@@ -21,6 +32,7 @@ export function Contact() {
       <div className="mt-10 grid gap-5 sm:grid-cols-3">
         {CONTACT.rows.map((row, index) => {
           const Icon = CARD_ICONS[index] ?? User;
+          const href = contactHref(row.id, row.value.en);
           return (
             <article
               key={row.id}
@@ -36,7 +48,17 @@ export function Contact() {
                 <Icon className="h-5 w-5" strokeWidth={2} />
               </span>
               <h3 className="text-h3 text-navy-900">{t(row.label)}</h3>
-              <p className="text-small font-semibold text-green-700">{t(row.value)}</p>
+              {href ? (
+                <a
+                  href={href}
+                  dir="ltr"
+                  className="text-small font-semibold text-green-700 transition-colors hover:text-green"
+                >
+                  {row.value.en}
+                </a>
+              ) : (
+                <p className="text-small font-semibold text-navy-900">{t(row.value)}</p>
+              )}
             </article>
           );
         })}
