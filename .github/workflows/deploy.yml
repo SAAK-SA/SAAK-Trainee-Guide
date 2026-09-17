@@ -39,6 +39,11 @@ jobs:
           # under https://<owner>.github.io/<repo>/. Keep in sync with the
           # repository name.
           BASE_PATH: /SAAK-Trainee-Guide/
+          # Coming-soon holding page — remove this line (or set to "false")
+          # and re-run the workflow to reveal the real guide.
+          # Preview bypass: append ?preview=1 to the URL to see the real
+          # site (stored per-browser in sessionStorage).
+          VITE_COMING_SOON: "true"
         run: npm run build
 
       - name: Configure Pages
