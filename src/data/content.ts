@@ -405,7 +405,10 @@ export const CONDUCT = {
   ] satisfies CardItem[],
   hoursLabel: { en: 'Working Hours', ar: 'أوقات الدوام' } satisfies Localized,
   hoursDays: { en: 'Sunday – Thursday', ar: 'الأحد – الخميس' } satisfies Localized,
-  hoursTime: { en: '9:00 AM – 5:00 PM', ar: '9:00 صباحًا – 5:00 مساءً' } satisfies Localized,
+  hoursTime: {
+    en: 'From 9:00 AM to 5:00 PM',
+    ar: 'من 9:00 صباحًا إلى 5:00 مساءً',
+  } satisfies Localized,
 } as const;
 
 /* ── Safety & Security (07) ────────────────────────────────────────────── */
