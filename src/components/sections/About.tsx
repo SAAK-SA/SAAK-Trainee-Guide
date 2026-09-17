@@ -8,19 +8,15 @@ import { SmartImage } from '@/components/ui/SmartImage';
 import { ICONS } from '@/lib/icons';
 
 /**
- * Photo path for each area card. Drop matching files in `public/images/`
- * and the placeholders swap out on load — no code change needed.
- *
- *   public/images/about-design.jpg
- *   public/images/about-manufacturing.jpg
- *   public/images/about-repair.jpg
- *   public/images/about-engineering.jpg
+ * Photo path for each area card, relative to the public/ folder.
+ * GitHub Pages URLs are case-sensitive — match the filename exactly
+ * (extension included).
  */
 const AREA_IMAGES: Record<string, string> = {
-  'area-design': 'images/about-design.jpg',
-  'area-manufacturing': 'images/about-manufacturing.jpg',
-  'area-repair': 'images/about-repair.jpg',
-  'area-engineering': 'images/about-engineering.jpg',
+  'area-design': 'about-design.jpeg',
+  'area-manufacturing': 'about-manufacturing.jpg',
+  'area-repair': 'about-repair.jpg',
+  'area-engineering': 'about-engineering.JPG',
 };
 
 /** Auto-drift the carousel left/right in whole-pixel steps. */
