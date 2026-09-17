@@ -7,13 +7,12 @@ import { Button } from '@/components/ui/Button';
 import { useWizardCtx } from '@/wizard/WizardContext';
 
 /**
- * Path to the hero background photograph. Drop a real file here to replace
- * the placeholder gradient; the image sits BEHIND the navy overlay so the
- * headline stays legible either way.
- *
- *   public/images/hero-bg.jpg  (recommended 2400×1600, jpg or webp)
+ * Path to the hero background photograph, relative to the public/ folder.
+ * The image sits BEHIND the navy overlay so the headline stays legible
+ * either way. GitHub Pages URLs are case-sensitive — match the filename
+ * exactly (extension included).
  */
-const HERO_IMAGE = 'images/hero-bg.jpg';
+const HERO_IMAGE = 'hero-bg.JPG';
 
 export function Hero() {
   const { t } = useLanguage();
