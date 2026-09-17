@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { cn } from '@/lib/cn';
 import { useLanguage } from '@/i18n/LanguageContext';
 import { UI } from '@/data/ui';
@@ -9,13 +10,25 @@ interface LogoProps {
 }
 
 /**
- * SAAK lockup — a typographic mark on a navy tile with a green connection
- * accent. Neutral stand-in for the official logo; drop /public/logo.svg
- * and swap the <svg> for an <img> when the real asset arrives.
+ * SAAK lockup — renders /public/logo.png if the file is uploaded,
+ * otherwise falls back to a neutral typographic mark so nothing breaks
+ * during setup.
  */
 export function Logo({ tone = 'light', className, compact = false }: LogoProps) {
   const { t } = useLanguage();
+  const [logoFailed, setLogoFailed] = useState(false);
   const isDark = tone === 'dark';
+
+  if (!logoFailed) {
+    return (
+      <img
+        src={`${import.meta.env.BASE_URL}logo.png`}
+        alt={`${t(UI.brandName)} ${t(UI.productName)}`}
+        onError={() => setLogoFailed(true)}
+        className={cn('h-10 w-auto max-w-[220px] object-contain', className)}
+      />
+    );
+  }
 
   return (
     <span className={cn('inline-flex items-center gap-3', className)}>
