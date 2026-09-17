@@ -13,8 +13,8 @@ export const UI = {
   languageToggle: { en: 'Switch language', ar: 'تغيير اللغة' } satisfies Localized,
   scrollHint: { en: 'Start the guide', ar: 'ابدأ الدليل' } satisfies Localized,
   copyright: {
-    en: 'SAAK International. Internal training material.',
-    ar: 'ساك الدولية — مادة تدريبية داخلية.',
+    en: 'SAAK International.',
+    ar: 'ساك الدولية.',
   } satisfies Localized,
   backToTop: { en: 'Back to top', ar: 'العودة إلى الأعلى' } satisfies Localized,
   quickLinks: { en: 'Quick links', ar: 'روابط سريعة' } satisfies Localized,

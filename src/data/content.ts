@@ -641,17 +641,17 @@ export const CONTACT = {
     {
       id: 'contact-name',
       label: { en: 'Contact Name', ar: 'الاسم' },
-      value: { en: 'To be added', ar: 'يُضاف لاحقًا' },
+      value: { en: 'Abdulaziz Alotaibi', ar: 'عبدالعزيز العتيبي' },
     },
     {
       id: 'contact-phone',
       label: { en: 'Phone', ar: 'رقم التواصل' },
-      value: { en: 'To be added', ar: 'يُضاف لاحقًا' },
+      value: { en: '+966 55 168 8938', ar: '+٩٦٦ ٥٥ ١٦٨ ٨٩٣٨' },
     },
     {
       id: 'contact-email',
       label: { en: 'Email', ar: 'البريد الإلكتروني' },
-      value: { en: 'To be added', ar: 'يُضاف لاحقًا' },
+      value: { en: 'AbdulazizA@saaksa.com', ar: 'AbdulazizA@saaksa.com' },
     },
   ] satisfies FactRow[],
 } as const;
@@ -716,6 +716,18 @@ export const ACKNOWLEDGEMENT = {
   statement: {
     en: 'I acknowledge that I have read the SAAK International Trainee Guide and agree to comply with the applicable policies, regulations, and instructions, including safety, security, and confidentiality requirements throughout my training period.',
     ar: 'أقرّ بأنني اطلعت على دليل المتدرب في ساك الدولية، وأوافق على الالتزام بالسياسات والأنظمة والتعليمات المعمول بها، بما في ذلك تعليمات الأمن والسلامة والمحافظة على سرية المعلومات طوال فترة تدريبي في الشركة.',
+  } satisfies Localized,
+  regulationsLabel: {
+    en: 'Work Regulations',
+    ar: 'لائحة العمل',
+  } satisfies Localized,
+  regulationsHint: {
+    en: 'Please read the work regulations document before you sign the acknowledgement.',
+    ar: 'يرجى الاطلاع على لائحة العمل قبل التوقيع على الإقرار.',
+  } satisfies Localized,
+  regulationsAction: {
+    en: 'Open work regulations',
+    ar: 'عرض لائحة العمل',
   } satisfies Localized,
   informationLabel: { en: 'Information', ar: 'البيانات' } satisfies Localized,
   fullNameLabel: { en: 'Full Name', ar: 'الاسم الكامل' } satisfies Localized,
