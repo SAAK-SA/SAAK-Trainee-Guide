@@ -21,7 +21,7 @@ import { cn } from '@/lib/cn';
  * Until FORM_ENDPOINT is filled in, the form shows an inline
  * "endpoint not configured" notice on submit and sends nothing.
  */
-const FORM_ENDPOINT = '';
+const FORM_ENDPOINT = 'https://script.google.com/macros/s/AKfycbyKZzVcOFKx_eHuXEC5NuLBLdHuDxLy36_5sYarG0a5GobXcxE6m6yKpKr2M-lVn2si/exec';
 
 /** Path to the work-regulations document, relative to public/. */
 const REGULATIONS_URL = 'work-regulations.pdf';
