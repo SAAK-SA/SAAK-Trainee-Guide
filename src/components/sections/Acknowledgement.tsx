@@ -9,19 +9,19 @@ import { cn } from '@/lib/cn';
 /**
  * Where the trainee's acknowledgement is sent.
  *
- * Default is FormSubmit.co, a free relay that emails every submission
- * to the address in the URL — no account or backend needed.
+ * Submissions are appended as rows to a Google Sheet via a Google Apps
+ * Script Web App. The script source is at docs/google-apps-script.js —
+ * follow the deploy steps there once, then paste the resulting Web App
+ * URL into FORM_ENDPOINT below.
  *
- *   Before the first live submission, FormSubmit sends ONE verification
- *   email to AbdulazizA@saaksa.com. Click the link inside it and every
- *   subsequent submission arrives as an email automatically.
+ * Google Apps Script does not return CORS headers on POST, so the
+ * fetch runs in `no-cors` mode. That means the browser cannot read
+ * the response — we treat any completed network request as success.
  *
- * To switch to another provider (Formspree, a Google Apps Script web
- * app, etc.), paste the endpoint URL below and — if the new provider
- * wants form-encoded data instead of JSON — flip `USE_JSON` to false.
+ * Until FORM_ENDPOINT is filled in, the form shows an inline
+ * "endpoint not configured" notice on submit and sends nothing.
  */
-const FORM_ENDPOINT = 'https://formsubmit.co/ajax/AbdulazizA@saaksa.com';
-const USE_JSON = true;
+const FORM_ENDPOINT = '';
 
 /** Path to the work-regulations document, relative to public/. */
 const REGULATIONS_URL = 'work-regulations.pdf';
@@ -50,35 +50,26 @@ export function Acknowledgement() {
       return;
     }
 
-    const payload: Record<string, string | boolean> = {
+    const payload = new URLSearchParams({
       fullName,
       trainingPeriod: period,
-      consent,
+      consent: String(consent),
       language: locale,
       submittedAt: new Date().toISOString(),
-      // FormSubmit hooks — ignored by other providers.
-      _subject: `SAAK International — Trainee acknowledgement (${fullName})`,
-      _template: 'table',
-      _captcha: 'false',
-    };
+    });
 
     try {
       setStatus('submitting');
       setErrorMessage('');
-      const response = await fetch(FORM_ENDPOINT, {
+      // Google Apps Script Web Apps don't return CORS headers, so we
+      // run in no-cors mode. The browser can't read the response, but
+      // the request still reaches the script and appends the row.
+      await fetch(FORM_ENDPOINT, {
         method: 'POST',
-        headers: USE_JSON
-          ? { 'Content-Type': 'application/json', Accept: 'application/json' }
-          : { Accept: 'application/json' },
-        body: USE_JSON
-          ? JSON.stringify(payload)
-          : new URLSearchParams(
-              Object.fromEntries(
-                Object.entries(payload).map(([k, v]) => [k, String(v)]),
-              ),
-            ),
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: payload.toString(),
       });
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
       setStatus('success');
     } catch {
       setStatus('error');
